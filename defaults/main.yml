@@ -1,0 +1,18 @@
+---
+# defaults file for 0-1universe
+namespace: 0-1universe
+state: present
+
+universe_state: "{{ state }}"
+universe_namespace: "{{ namespace }}"
+
+ingress_name: 0-1universe
+domain: 0-1universe.36node.com
+
+cea_version: latest
+cea_image: "registry.cn-beijing.aliyuncs.com/36node/0-1universe-cea-admin:{{ cea_version }}"
+cea_time: 20210804120000
+
+tee_version: latest
+tee_image: "registry.cn-beijing.aliyuncs.com/36node/0-1universe-tee-admin:{{ tee_version }}"
+tee_time: 20210804120000

@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tee
+  labels:
+    app: tee
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: tee
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tee
+  labels:
+    app: tee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tee
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: tee
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: tee
+          image: "{{ tee_image }}"
+          env:
+            - name: DEPLOY_TIME
+              value: "{{ tee_time }}"
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+            requests:
+              cpu: "10m"
+              memory: "32Mi"

@@ -1,0 +1,30 @@
+## TODO: 未来考虑采用客户自己的域名，可以我们帮他们维护这个域名
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: "{{ ingress_name }}"
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "{{ cert_issuer }}"
+spec:
+  rules:
+    - host: tee.{{ domain }}
+      http:
+        paths:
+          - backend:
+              serviceName: tee
+              servicePort: 80
+            path: /
+    - host: cea.{{ domain }}
+      http:
+        paths:
+          - backend:
+              serviceName: cea
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - "{{ domain }}"
+        - "*.{{ domain }}"
+      secretName: "{{ domain }}"
