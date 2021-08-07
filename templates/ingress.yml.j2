@@ -9,14 +9,14 @@ metadata:
     cert-manager.io/cluster-issuer: "{{ cert_issuer }}"
 spec:
   rules:
-    - host: tee.{{ domain }}
+    - host: tee-uat.{{ domain }}
       http:
         paths:
           - backend:
               serviceName: tee
               servicePort: 80
             path: /
-    - host: cea.{{ domain }}
+    - host: cea-uat.{{ domain }}
       http:
         paths:
           - backend:
